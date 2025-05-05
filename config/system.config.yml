@@ -1,0 +1,19 @@
+db:
+  redis:
+    emulate: ${EMULATE_REDIS:-true}
+    host: ${HOST_REDIS:-localhost}
+    port: ${PORT_REDIS:-6379}
+    namespace: barbershop_gateway
+
+# Plugin configuration
+plugins:
+  auth-policy:
+    package: './plugins/auth-policy'
+  jwt-policy:
+    package: './plugins/jwt-policy'
+  jwtScopes-policy:
+    package: './plugins/jwtScopes-policy'
+  body-parser-policy:
+    package: './plugins/body-parser-policy'
+  account-authorization:
+    package: './plugins/account-authorization'

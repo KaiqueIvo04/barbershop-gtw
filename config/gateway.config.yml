@@ -1,0 +1,144 @@
+http:
+  port: ${PORT_HTTP:-80}
+  hostname: '0.0.0.0'
+https:
+  port: ${PORT_HTTPS:-443}
+  hostname: '0.0.0.0'
+  tls:
+    'default':
+      key: ${SSL_KEY_PATH}
+      cert: ${SSL_CERT_PATH}
+  options:
+    requestCert: false
+    rejectUnauthorized: false
+
+apiEndpoints:
+  ## ACCOUNT PUBLIC ENDPOINTS ##
+  accountPublicApi:
+    ## AUTH ##
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/auth'
+      methods: ['POST']
+
+  ## ACCOUNT PRIVATE ENDPOINTS ##
+  accountPrivateApi:
+    ## ADMINS ##
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/admins'
+      methods: ['POST']
+      scopes: ['ad:c']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/admins'
+      methods: ['GET']
+      scopes: ['ad:ra']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/admins/:admin_id'
+      methods: ['GET']
+      scopes: ['ad:r']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/admins/:admin_id'
+      methods: ['PATCH']
+      scopes: ['ad:u']
+
+####### SERVICE ENDPOINTS OF SYSTEM #######
+serviceEndpoints:
+  accountService:
+    url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
+
+####### POLICIES USED IN PIPELINES DEFINITION ########
+policies:
+  - log
+  - proxy
+  - auth-policy
+  - jwt-policy
+  - jwtScopes-policy
+  - body-parser-policy
+  - request-transformer
+  - rate-limit
+
+####### PIPELINES DEFINITION ########
+pipelines:
+  ## PIPELINES TO ACCOUNT PUBLIC ENDPOINTS ##
+  accountPublicPipeline:
+    apiEndpoints: ['accountPublicApi']
+    policies:
+      - log: &log
+          - action:
+              message: ${req.connection.remoteAddress} - "${req.method} ${req.headers.host} ${req.originalUrl} HTTP/${req.httpVersion}"
+      - body-parser-policy:
+      - rate-limit:
+          - condition:
+              name: 'expression'
+              expression: "'${NODE_ENV}'==='production'"
+            action:
+              - condition:
+                  name: 'regex-path-method'
+                  regexPath: '^(\/v1\/auth\/{0,1})$'
+                  method: 'POST'
+                action: &rate-limit
+                  max: 5
+                  windowMs: 3600000
+                  rateLimitBy: ${req.hostname} ${req.body.email}
+                  statusCode: 400
+                  message: 'Limit per hour exceeded for user. Please try again later...'
+                  headers: true
+                  delayMs: 0
+      - request-transformer:
+          - condition:
+              name: 'regex-path-method'
+              regexPath: '^(\/v1\/auth\/{0,1})$'
+              method: 'POST'
+            action:
+              headers:
+                add:
+                  barbershop-auth-log: "'true'"
+      - auth-policy:
+          - condition:
+              name: 'regex-path-method'
+              regexPath: '^(\/v1\/auth\/{0,1})$'
+              method: 'POST'
+            action:
+              urlAuthService: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/auth
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.key}
+              issuer: ${ISSUER:-barbershop}
+      - proxy:
+          - action: &proxy
+              prependPath: true
+              ignorePath: false
+              stripPath: false
+              changeOrigin: true
+              timeout: 60000
+              secure: false
+              serviceEndpoint: accountService
+
+  ## PIPELINES TO ACCOUNT PRIVATE ENDPOINTS ##
+  accountPrivatePipeline:
+    apiEndpoints: ['accountPrivateApi']
+    policies:
+      - log: *log
+      - body-parser-policy:
+      - jwt-policy: &jwt
+          - action:
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.key}
+              issuer: ${ISSUER:-barbershop}
+      - jwtScopes-policy:
+      - request-transformer: &request-transformer
+          - action:
+              headers:
+                add:
+                  barbershop-user-id: req.user.sub
+                  barbershop-user-type: req.user.sub_type
+      - proxy:
+          - action:
+              <<: *proxy
+              serviceEndpoint: accountService
+
+  

@@ -1,0 +1,27 @@
+{
+  "name": "barbershop-gtw",
+  "version": "1.0.0",
+  "description": "Responsible to provide access to resources provided by the microservices of barbershop app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaiqueIvo04/barbershop-gtw.git"
+  },
+  "keywords": [
+    "api",
+    "gateway",
+    "barbershop",
+    "proxy",
+    "microservices",
+    "express"
+  ],
+  "author": "Kaique Ivo",
+  "homepage": "https://github.com/KaiqueIvo04/barbershop-gtw#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express-gateway": "^1.16.11"
+  }
+}
