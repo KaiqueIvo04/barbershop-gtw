@@ -18,7 +18,7 @@
     "microservices",
     "express"
   ],
-  "author": "Kaique Ivo",
+  "author": "KaiqueIvo04",
   "homepage": "https://github.com/KaiqueIvo04/barbershop-gtw#readme",
   "dependencies": {
     "dotenv": "^16.5.0",

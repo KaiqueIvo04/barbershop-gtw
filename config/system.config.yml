@@ -7,13 +7,5 @@ db:
 
 # Plugin configuration
 plugins:
-  auth-policy:
-    package: './plugins/auth-policy'
-  jwt-policy:
-    package: './plugins/jwt-policy'
-  jwtScopes-policy:
-    package: './plugins/jwtScopes-policy'
-  body-parser-policy:
-    package: './plugins/body-parser-policy'
-  account-authorization:
-    package: './plugins/account-authorization'
+  policies:
+    package: './plugin-barbershop'
