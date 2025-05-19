@@ -16,12 +16,16 @@ module.exports = function (actionParams, authServiceTest, localServicesTest) {
         }
 
         try {
+            delete req.headers['content-length'] // Remove to avoid conflict with axios parser
+            
             // 1. Run authentication on the account-service
             const authResponse = await userService.post(
-                actionParams.urlAuthService, req.body, {headers: req.headers}
-            )
+                actionParams.urlAuthService, 
+                req.body, // req.body must already be parsed by body-parser-policy
+                { headers: req.headers }
+            );
             const accessToken = authResponse.data.access_token
-
+            
             // 2. Read JWT public key
             const secretOrKey = actionParams.secretOrPublicKeyFile ?
                 fs.readFileSync(actionParams.secretOrPublicKeyFile, 'utf8') : actionParams.secretOrPublicKey
@@ -31,6 +35,7 @@ module.exports = function (actionParams, authServiceTest, localServicesTest) {
                 algorithms: ['RS256'],
                 issuer: actionParams.issuer
             })
+
             // 3.1 Checks if the user ID to whom the token belongs is present. 'sub' is required.
             if (!decode.sub) throw new Error('UNAUTHORIZED')
 

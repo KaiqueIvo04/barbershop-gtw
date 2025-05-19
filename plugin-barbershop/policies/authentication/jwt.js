@@ -90,12 +90,15 @@ module.exports = function (actionParams, testContext) {
                 'redirect_link': '/auth'
             })
 
-            if (info && info.message) return res.status(401).send({
+            if (info && info.message) {
+                console.log('JWT ERROR:', info.message)
+                
+                return res.status(401).send({
                 'code': 401,
                 'message': 'UNAUTHORIZED',
                 'description': 'Authentication failed due to access token issues.',
                 'redirect_link': '/auth'
-            })
+            })}
         })(req, res, next)
     }
 }
