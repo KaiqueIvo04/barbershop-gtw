@@ -47,6 +47,56 @@ apiEndpoints:
         - '/v1/admins/:admin_id'
       methods: ['PATCH']
       scopes: ['ad:u']
+      
+    ## Clients ##
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/clients'
+      methods: ['POST']
+      scopes: ['cl:c']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/clients'
+      methods: ['GET']
+      scopes: ['cl:ra']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/clients/:client_id'
+      methods: ['GET']
+      scopes: ['cl:r']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/clients/:client_id'
+      methods: ['PATCH']
+      scopes: ['cl:u']
+
+    ## Employees ##
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/employees'
+      methods: ['POST']
+      scopes: ['em:c']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/employees'
+      methods: ['GET']
+      scopes: ['em:ra']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/employees/:employee_id'
+      methods: ['GET']
+      scopes: ['em:r']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/employees/:employee_id'
+      methods: ['PATCH']
+      scopes: ['em:u']
 
 ####### SERVICE ENDPOINTS OF SYSTEM #######
 serviceEndpoints:
