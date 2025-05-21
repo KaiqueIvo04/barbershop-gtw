@@ -20,6 +20,11 @@ apiEndpoints:
       paths:
         - '/v1/auth'
       methods: ['POST']
+      
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/auth/register'
+      methods: ['POST']
 
   ## ACCOUNT PRIVATE ENDPOINTS ##
   accountPrivateApi:
