@@ -103,10 +103,107 @@ apiEndpoints:
       methods: ['PATCH']
       scopes: ['em:u']
 
+  ## SCHEDULE MANAGEMENT PRIVATE ENDPOINTS ##
+  scheduleManagementPrivateApi:
+    ## Services Private Endpoints ##
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/services'
+      methods: ['POST']
+      scopes: ['sv:c']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/services'
+      methods: ['GET']
+      scopes: ['sv:ra']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/services/:service_id'
+      methods: ['GET']
+      scopes: ['sv:r']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/services/:service_id'
+      methods: ['PATCH']
+      scopes: ['sv:u']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/services/:service_id'
+      methods: ['DELETE']
+      scopes: ['sv:d']
+
+    ##Schedules Private Endpoints ##
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/schedules'
+      methods: ['POST']
+      scopes: ['sc:c']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/schedules'
+      methods: ['GET']
+      scopes: ['sc:ra']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/schedules/:schedule_id'
+      methods: ['GET']
+      scopes: ['sc:r']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/schedules/:schedule_id'
+      methods: ['PATCH']
+      scopes: ['sc:u']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths: 
+        - '/v1/schedules/:schedule_id'
+      methods: ['DELETE']
+      scopes: ['sc:d']
+
+    ##Work Schedules Private Endpoints ##
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/workschedules'
+      methods: ['POST']
+      scopes: ['ws:c']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/workschedules'
+      methods: ['GET']
+      scopes: ['ws:ra']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/workschedules/:work_schedule_id'
+      methods: ['GET']
+      scopes: ['ws:r']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/workschedules/:work_schedule_id'
+      methods: ['PATCH']
+      scopes: ['ws:u']
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
+        - '/v1/workschedules/:work_schedule_id'
+      methods: ['DELETE']
+      scopes: ['ws:d']
+
 ####### SERVICE ENDPOINTS OF SYSTEM #######
 serviceEndpoints:
   accountService:
     url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
+  scheduleManagementService:
+    url: '${SCHEDULE_MANAGEMENT_SERVICE:-https://localhost:4001}'
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
@@ -196,4 +293,24 @@ pipelines:
               <<: *proxy
               serviceEndpoint: accountService
 
-  
+  ## PIPELINES TO SCHEDULE MANAGEMENT PRIVATE ENDPOINTS ##
+  scheduleManagementPrivatePipeline:
+    apiEndpoints: ['scheduleManagementPrivateApi']
+    policies:
+      - log: *log
+      - body-parser-policy:
+      - jwt-policy: &jwt
+          - action:
+              secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.key}
+              issuer: ${ISSUER:-barbershop}
+      - jwtScopes-policy:
+      - request-transformer: &request-transformer
+          - action:
+              headers:
+                add:
+                  barbershop-user-id: req.user.sub
+                  barbershop-user-type: req.user.sub_type
+      - proxy:
+          - action:
+              <<: *proxy
+              serviceEndpoint: scheduleManagementService

@@ -17,7 +17,7 @@ module.exports = function (actionParams, authServiceTest, localServicesTest) {
 
         try {
             delete req.headers['content-length'] // Remove to avoid conflict with axios parser
-            
+
             // 1. Run authentication on the account-service
             const authResponse = await userService.post(
                 actionParams.urlAuthService, 
@@ -25,7 +25,7 @@ module.exports = function (actionParams, authServiceTest, localServicesTest) {
                 { headers: req.headers }
             );
             const accessToken = authResponse.data.access_token
-            
+
             // 2. Read JWT public key
             const secretOrKey = actionParams.secretOrPublicKeyFile ?
                 fs.readFileSync(actionParams.secretOrPublicKeyFile, 'utf8') : actionParams.secretOrPublicKey
