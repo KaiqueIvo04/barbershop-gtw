@@ -1,8 +1,8 @@
 http:
-  port: ${PORT_HTTP:-80}
+  port: ${PORT_HTTP:-8080}
   hostname: '0.0.0.0'
 https:
-  port: ${PORT_HTTPS:-443}
+  port: ${PORT_HTTPS:-8081}
   hostname: '0.0.0.0'
   tls:
     'default':

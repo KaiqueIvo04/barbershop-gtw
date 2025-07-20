@@ -1,6 +1,6 @@
 db:
   redis:
-    emulate: ${EMULATE_REDIS:-true}
+    emulate: ${EMULATE_REDIS:-false}
     host: ${HOST_REDIS:-localhost}
     port: ${PORT_REDIS:-6379}
     namespace: barbershop_gateway
