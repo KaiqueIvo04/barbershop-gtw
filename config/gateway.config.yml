@@ -169,6 +169,11 @@ apiEndpoints:
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
+        - '/v1/schedules/availableslots'  
+      scopes: ['sc:ra', 'ws:ra'] 
+
+    - host: ${API_GATEWAY_HOSTNAME}
+      paths:
         - '/v1/schedules/:schedule_id'
       methods: ['PATCH', 'PUT']
       scopes: ['sc:u']
