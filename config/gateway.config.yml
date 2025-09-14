@@ -1,11 +1,11 @@
 http:
   port: ${PORT_HTTP:-8080}
-  hostname: '0.0.0.0'
+  hostname: "0.0.0.0"
 https:
   port: ${PORT_HTTPS:-8081}
-  hostname: '0.0.0.0'
+  hostname: "0.0.0.0"
   tls:
-    'default':
+    "default":
       key: ${SSL_KEY_PATH}
       cert: ${SSL_CERT_PATH}
   options:
@@ -18,212 +18,213 @@ apiEndpoints:
     ## AUTH ##
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/auth'
-      methods: ['POST']
-      
+        - "/v1/auth"
+      methods: ["POST","OPTIONS"]
+
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/auth/register'
-      methods: ['POST']
+        - "/v1/auth/register"
+      methods: ["POST"]
 
   ## ACCOUNT PRIVATE ENDPOINTS ##
   accountPrivateApi:
     ## ADMINS ##
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/admins'
-      methods: ['POST']
-      scopes: ['ad:c']
+        - "/v1/admins"
+      methods: ["POST"]
+      scopes: ["ad:c"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/admins'
-      methods: ['GET']
-      scopes: ['ad:ra']
+        - "/v1/admins"
+      methods: ["GET","OPTIONS"]
+      scopes: ["ad:ra"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/admins/:admin_id'
-      methods: ['GET']
-      scopes: ['ad:r']
+        - "/v1/admins/:admin_id"
+      methods: ["GET","OPTIONS"]
+      scopes: ["ad:r"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/admins/:admin_id'
-      methods: ['PATCH']
-      scopes: ['ad:u']
-      
+        - "/v1/admins/:admin_id"
+      methods: ["PATCH"]
+      scopes: ["ad:u"]
+
     ## Clients ##
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/clients'
-      methods: ['POST']
-      scopes: ['cl:c']
+        - "/v1/clients"
+      methods: ["POST"]
+      scopes: ["cl:c"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/clients'
-      methods: ['GET']
-      scopes: ['cl:ra']
+        - "/v1/clients"
+      methods: ["GET"]
+      scopes: ["cl:ra"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/clients/:client_id'
-      methods: ['GET']
-      scopes: ['cl:r']
+        - "/v1/clients/:client_id"
+      methods: ["GET"]
+      scopes: ["cl:r"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/clients/:client_id'
-      methods: ['PATCH']
-      scopes: ['cl:u']
+        - "/v1/clients/:client_id"
+      methods: ["PATCH"]
+      scopes: ["cl:u"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/clients/:client_id'
-      methods: ['DELETE']
-      scopes: ['cl:d']
+        - "/v1/clients/:client_id"
+      methods: ["DELETE"]
+      scopes: ["cl:d"]
 
     ## Employees ##
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/employees'
-      methods: ['POST']
-      scopes: ['em:c']
+        - "/v1/employees"
+      methods: ["POST"]
+      scopes: ["em:c"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/employees'
-      methods: ['GET']
-      scopes: ['em:ra']
+        - "/v1/employees"
+      methods: ["GET"]
+      scopes: ["em:ra"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/employees/:employee_id'
-      methods: ['GET']
-      scopes: ['em:r']
+        - "/v1/employees/:employee_id"
+      methods: ["GET"]
+      scopes: ["em:r"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/employees/:employee_id'
-      methods: ['PATCH']
-      scopes: ['em:u']
+        - "/v1/employees/:employee_id"
+      methods: ["PATCH"]
+      scopes: ["em:u"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/employees/:employee_id'
-      methods: ['DELETE']
-      scopes: ['em:d']
+        - "/v1/employees/:employee_id"
+      methods: ["DELETE"]
+      scopes: ["em:d"]
 
   ## SCHEDULE MANAGEMENT PRIVATE ENDPOINTS ##
   scheduleManagementPrivateApi:
     ## Services Private Endpoints ##
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/services'
-      methods: ['POST']
-      scopes: ['sv:c']
+        - "/v1/services"
+      methods: ["POST"]
+      scopes: ["sv:c"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/services'
-      methods: ['GET']
-      scopes: ['sv:ra']
+        - "/v1/services"
+      methods: ["GET"]
+      scopes: ["sv:ra"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/services/:service_id'
-      methods: ['GET']
-      scopes: ['sv:r']
+        - "/v1/services/:service_id"
+      methods: ["GET"]
+      scopes: ["sv:r"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/services/:service_id'
-      methods: ['PATCH']
-      scopes: ['sv:u']
+        - "/v1/services/:service_id"
+      methods: ["PATCH"]
+      scopes: ["sv:u"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/services/:service_id'
-      methods: ['DELETE']
-      scopes: ['sv:d']
+        - "/v1/services/:service_id"
+      methods: ["DELETE"]
+      scopes: ["sv:d"]
 
     ##Schedules Private Endpoints ##
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/schedules'
-      methods: ['POST']
-      scopes: ['sc:c']
+        - "/v1/schedules"
+      methods: ["POST"]
+      scopes: ["sc:c"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/schedules'
-      methods: ['GET']
-      scopes: ['sc:ra']
+        - "/v1/schedules"
+      methods: ["GET"]
+      scopes: ["sc:ra"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/schedules/:schedule_id'
-      methods: ['GET']
-      scopes: ['sc:r']
+        - "/v1/schedules/:schedule_id"
+      methods: ["GET"]
+      scopes: ["sc:r"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/schedules/availableslots'  
-      scopes: ['sc:ra', 'ws:ra'] 
+        - "/v1/schedules/availableslots"
+      scopes: ["sc:ra", "ws:ra"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/schedules/:schedule_id'
-      methods: ['PATCH', 'PUT']
-      scopes: ['sc:u']
+        - "/v1/schedules/:schedule_id"
+      methods: ["PATCH", "PUT"]
+      scopes: ["sc:u"]
 
     - host: ${API_GATEWAY_HOSTNAME}
-      paths: 
-        - '/v1/schedules/:schedule_id'
-      methods: ['DELETE']
-      scopes: ['sc:d']
+      paths:
+        - "/v1/schedules/:schedule_id"
+      methods: ["DELETE"]
+      scopes: ["sc:d"]
 
     ##Work Schedules Private Endpoints ##
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/workschedules'
-      methods: ['POST']
-      scopes: ['ws:c']
+        - "/v1/workschedules"
+      methods: ["POST"]
+      scopes: ["ws:c"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/workschedules'
-      methods: ['GET']
-      scopes: ['ws:ra']
+        - "/v1/workschedules"
+      methods: ["GET"]
+      scopes: ["ws:ra"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/workschedules/:work_schedule_id'
-      methods: ['GET']
-      scopes: ['ws:r']
+        - "/v1/workschedules/:work_schedule_id"
+      methods: ["GET"]
+      scopes: ["ws:r"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/workschedules/:work_schedule_id'
-      methods: ['PATCH']
-      scopes: ['ws:u']
+        - "/v1/workschedules/:work_schedule_id"
+      methods: ["PATCH"]
+      scopes: ["ws:u"]
 
     - host: ${API_GATEWAY_HOSTNAME}
       paths:
-        - '/v1/workschedules/:work_schedule_id'
-      methods: ['DELETE']
-      scopes: ['ws:d']
+        - "/v1/workschedules/:work_schedule_id"
+      methods: ["DELETE"]
+      scopes: ["ws:d"]
 
 ####### SERVICE ENDPOINTS OF SYSTEM #######
 serviceEndpoints:
   accountService:
-    url: '${ACCOUNT_SERVICE:-https://localhost:3001}'
+    url: "${ACCOUNT_SERVICE:-https://localhost:3001}"
   scheduleManagementService:
-    url: '${SCHEDULE_MANAGEMENT_SERVICE:-https://localhost:4001}'
+    url: "${SCHEDULE_MANAGEMENT_SERVICE:-https://localhost:4001}"
 
 ####### POLICIES USED IN PIPELINES DEFINITION ########
 policies:
+  - cors
   - log
   - proxy
   - auth-policy
@@ -237,43 +238,52 @@ policies:
 pipelines:
   ## PIPELINES TO ACCOUNT PUBLIC ENDPOINTS ##
   accountPublicPipeline:
-    apiEndpoints: ['accountPublicApi']
+    apiEndpoints: ["accountPublicApi"]
     policies:
+      - cors:
+        - action:
+            origin: "http://localhost:9000"
+            methods: ["GET","PUT","PATCH","POST","DELETE","OPTIONS"]
+            # allowedHeaders: ["Content-Type", "Authorization"]
+            # exposedHeaders: ["Authorization"]
+            credentials: true
+            preflightContinue: false
+            optionsSuccessStatus: 204
       - log: &log
           - action:
               message: ${req.connection.remoteAddress} - "${req.method} ${req.headers.host} ${req.originalUrl} HTTP/${req.httpVersion}"
       - body-parser-policy:
       - rate-limit:
           - condition:
-              name: 'expression'
+              name: "expression"
               expression: "'${NODE_ENV}'==='production'"
             action:
               - condition:
-                  name: 'regex-path-method'
+                  name: "regex-path-method"
                   regexPath: '^(\/v1\/auth\/{0,1})$'
-                  method: 'POST'
+                  method: "POST"
                 action: &rate-limit
                   max: 5
                   windowMs: 3600000
                   rateLimitBy: ${req.hostname} ${req.body.email}
                   statusCode: 400
-                  message: 'Limit per hour exceeded for user. Please try again later...'
+                  message: "Limit per hour exceeded for user. Please try again later..."
                   headers: true
                   delayMs: 0
       - request-transformer:
           - condition:
-              name: 'regex-path-method'
+              name: "regex-path-method"
               regexPath: '^(\/v1\/auth\/{0,1})$'
-              method: 'POST'
+              method: "POST"
             action:
               headers:
                 add:
                   barbershop-auth-log: "'true'"
       - auth-policy:
           - condition:
-              name: 'regex-path-method'
+              name: "regex-path-method"
               regexPath: '^(\/v1\/auth\/{0,1})$'
-              method: 'POST'
+              method: "POST"
             action:
               urlAuthService: ${ACCOUNT_SERVICE:-https://localhost:3001}/v1/auth
               secretOrPublicKeyFile: ${JWT_PUBLIC_KEY_PATH:-./.certs/jwt.key}
@@ -290,8 +300,17 @@ pipelines:
 
   ## PIPELINES TO ACCOUNT PRIVATE ENDPOINTS ##
   accountPrivatePipeline:
-    apiEndpoints: ['accountPrivateApi']
+    apiEndpoints: ["accountPrivateApi"]
     policies:
+      - cors:
+        - action:
+            origin: "http://localhost:9000"
+            methods: ["GET","PUT","PATCH","POST","DELETE","OPTIONS"]
+            allowedHeaders: ["Content-Type", "Authorization"]
+            exposedHeaders: ["Authorization"]
+            credentials: true
+            preflightContinue: false
+            optionsSuccessStatus: 204
       - log: *log
       - body-parser-policy:
       - jwt-policy: &jwt
@@ -312,7 +331,7 @@ pipelines:
 
   ## PIPELINES TO SCHEDULE MANAGEMENT PRIVATE ENDPOINTS ##
   scheduleManagementPrivatePipeline:
-    apiEndpoints: ['scheduleManagementPrivateApi']
+    apiEndpoints: ["scheduleManagementPrivateApi"]
     policies:
       - log: *log
       - body-parser-policy:
